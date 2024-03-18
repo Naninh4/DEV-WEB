@@ -1,0 +1,1 @@
+# praticar consultas ao banco 
