@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-a@#3asxx0n6w^$_3e@fy5i@r^h)_$k$!g#e1%&48&o-oh0gtb$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['LiviaVS.pythonanywhere.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['LiviaVS.pythonanywhere.com', 'localhost']
 
 
 # Application definition
