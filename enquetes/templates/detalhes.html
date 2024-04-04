@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+    <main class="container-fluid mt-4">
+
+        <h1> Detalhes da pergunta: {{question.id}} </h1>
+
+        <p>{{ question.data_pub  }}</p>
+
+
+        {% if error %}
+            <p><b>{{ error }}</b></p>
+        {% endif %}
+
+        <p> Lista de alternativas: </p>
+
+
+        {% if  question.alternativa_set.all %}
+
+        <form  action="{% url 'enquetes:votacao' question.id % }" method="post">
+            {% csrf_token %}
+                <ul>
+
+                {% for a in question.alternativa_set.all %}
+                    <li>
+                        <input type="radio" name="alt" id="a{{ forloop.counter }}" value="{{ a.id }}" >
+                        <label for="a{{ forloop.counter }}"> {{ a.texto }} </label>
+                    </li>
+                {%  endfor %}
+                </ul>
+
+                <input type="submit" value="Votar">
+
+        </form>
+
+
+        {% else %}
+            <p> Nenhuma alternativa cadastrada </p>
+        {% endif %}
+
+ </main>
+
+</body>
+</html>

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import  HttpResponse
+from django.http import  HttpResponse, Http404
 
 from .models import Pergunta
 # Create your views here.
@@ -20,9 +20,16 @@ def index (request):
 #     context = {'lista_enquetes': lista}
 #     return HttpResponse(template.render(request, context))
 
+
+
 def detalhes(request, pergunta_id):
-    resultado = "<h1> Detalhes da enquete de número: %s </h1>"
-    return HttpResponse( resultado % pergunta_id)
+    try:
+        question = Pergunta.objects.get(pk=pergunta_id);
+
+    except  Pergunta.DoesNotExist:
+        raise Http404("Questão não existe")
+
+    return render(request, "detalhes.html", {'question' :  question });
 
 def votacao(request, pergunta_id):
     resultado = "<h1> Votacões da enquete de número: %s</h1> "
