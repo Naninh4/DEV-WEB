@@ -8,7 +8,30 @@
 </head>
 <body>
     <main class="container-fluid mt-4">
-        <section class="container h-auto d-flex justify-content-center align-items-center ">
+
+        <hr>
+        <section>
+            <h1 class="mt-4">Aplicação de <u> Enquetes </u> - DSWeb 2024.1 </h1>
+
+            {%  if lista_enquetes %}
+            <h3>Lista de enquetes cadastradas</h3>
+                <ul>
+                    {% for p in lista_enquetes %}
+                    <li> <a href="{% url "detalhes" p.id %}">{{p.texto }} </a></li>
+                {% endfor %}
+                </ul>
+
+
+            {% else %}
+
+                <h5> Nenhuma enquete cadastrada</h5>
+
+            {% endif %}
+
+        </section>
+        <hr>
+
+          <section class="container h-auto d-flex justify-content-center align-items-center mt-4">
             <div class="w-75">
 
                 <div class="card text-center">
@@ -32,26 +55,6 @@
             </div>
 
 '
-        </section>
-        <hr>
-        <section>
-            <h1 class="mt-4">Aplicação de <u> Enquetes </u> - DSWeb 2024.1 </h1>
-
-            {%  if lista_enquetes %}
-            <h3>Lista de enquetes cadastradas</h3>
-                <ul>
-                    {% for p in lista_enquetes %}
-                    <li> <a href="{% url "detalhes" p.id %}">{{p.texto }} </a></li>
-                {% endfor %}
-                </ul>
-
-
-            {% else %}
-
-                <h5> Nenhuma enquete cadastrada</h5>
-
-            {% endif %}
-
         </section>
     </main>
 

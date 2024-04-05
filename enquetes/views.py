@@ -1,7 +1,8 @@
-from django.shortcuts import render
-from django.http import  HttpResponse, Http404
+from django.shortcuts import render, get_object_or_404
+from django.http import  HttpResponse, Http404, HttpResponseRedirect
+from django.urls import reverse
 
-from .models import Pergunta
+from .models import Pergunta, Alternativa
 # Create your views here.
 
 
@@ -24,16 +25,31 @@ def index (request):
 
 def detalhes(request, pergunta_id):
     try:
-        question = Pergunta.objects.get(pk=pergunta_id);
+        enquete = Pergunta.objects.get(pk=pergunta_id);
 
     except  Pergunta.DoesNotExist:
         raise Http404("Questão não existe")
 
-    return render(request, "detalhes.html", {'question' :  question });
+    return render(request, "detalhes.html", {'enquete' :  enquete });
+
 
 def votacao(request, pergunta_id):
-    resultado = "<h1> Votacões da enquete de número: %s</h1> "
-    return HttpResponse( resultado % pergunta_id)
+    pergunta = get_object_or_404(Pergunta, pk=pergunta_id)
+    try:
+        alternativa_id = request.POST.get('alt')
+        alternativa = pergunta.alternativa_set.get(pk=alternativa_id)
+    except (KeyError, Alternativa.DoesNotExist):
+        context = {
+            'enquete': pergunta,
+            'error': "Você não selecionou nenhuma alternativa"
+        }
+        return render(request, "detalhes.html", context)
+    else:
+        alternativa.quant_votos += 1
+        alternativa.save()
+
+    return HttpResponseRedirect(reverse("resultados", args=(pergunta.id,)))
+
 
 def resultados(request, pergunta_id):
     resultado = "<h1> RESULTADOS enquete de número: %s </h1>"
