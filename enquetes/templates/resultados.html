@@ -9,37 +9,26 @@
 <body>
     <main class="container-fluid mt-4">
 
-        <h1> Enquete #{{ enquete.id }} </h1>
+        <h1>Aplicação de enquetes DSWeb 2024.1</h1>
+        <h2>PARCIAL da Enquete #{{ enquete.id }} </h1>
 
         <h3>{{ enquete.texto }}</h3>
         <p>{{ enquete.data_pub  }}</p>
 
 
-
-        {% if error %}
-            <p><b>{{ error }}</b></p>
-        {% endif %}
-
-        <p> Lista de alternativas: </p>
+        <p> Quantidade de votos por alternativa: </p>
 
 
         {% if  enquete.alternativa_set.all %}
 
-        <form  action="{% url "votacao" enquete.id %}" method="post">
-            {% csrf_token %}
                 <ul>
 
                 {% for a in enquete.alternativa_set.all %}
                     <li>
-                        <input type="radio" name="alt" id="a{{ forloop.counter }}" value="{{ a.id }}" >
-                        <label for="a{{ forloop.counter }}"> {{ a.texto }} </label>
+                        <p>{{a.texto}} == {{ a.quant_votos }} voto{{ a.quant_votos | pluralize }}</p>
                     </li>
                 {%  endfor %}
                 </ul>
-
-                <input type="submit" value="Votar">
-
-        </form>
 
 
         {% else %}
@@ -47,6 +36,7 @@
         {% endif %}
 
         <hr>
+        <a href="{% url "votacao" enquete.id %}">Votar novamente</a>
         <a href="/enquetes/">< Voltar</a>
 
  </main>

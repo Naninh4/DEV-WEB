@@ -50,7 +50,6 @@ def votacao(request, pergunta_id):
 
     return HttpResponseRedirect(reverse("resultados", args=(pergunta.id,)))
 
-
 def resultados(request, pergunta_id):
-    resultado = "<h1> RESULTADOS enquete de número: %s </h1>"
-    return HttpResponse(resultado % pergunta_id)
+    pergunta = get_object_or_404(Pergunta, pk=pergunta_id)
+    return render(request, "resultados.html", {'enquete': pergunta})
