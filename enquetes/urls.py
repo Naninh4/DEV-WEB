@@ -1,9 +1,9 @@
 from django.urls import path
-from .views import index, votacao, detalhes, resultados
-
+from . import views
 urlpatterns = [
-    path('', index, name="index"),
-    path('<int:pergunta_id>/votacao',votacao, name='votacao' ),
-    path('<int:pergunta_id>/detalhes', detalhes, name="detalhes"),
-    path('<int:pergunta_id>/resultado', resultados, name="resultados"),
+    path('', views.IndexView.as_view(), name="index"),
+    path('<int:pk>', views.DetalhesView.as_view(), name="detalhes"),
+    path('<int:pk>/resultados', views.ResultadosView.as_view(), name="resultados"),
 ]
+
+# path('<int:pk>/votacao',votacao, name='votacao' ), // não precisa mais :)
